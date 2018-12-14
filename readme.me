@@ -1,0 +1,91 @@
+Setgit
+create repository on website github.io
+init local repo & add remote repo
+
+# เข้าไปในโฟลเดอร์ gitrepo
+$ cd gitrepo
+
+# สร้าง local repo ในโฟลเดอร์ gitrepo
+$ git init
+Initialized empty Git repository in /Users/username/gitrepo/.git/
+
+# ลิสต์ไฟล์ที่อยู่ในโฟลเดอร์นี้
+$ ls
+readme.md
+
+# คราวนี้ลิสต์ไฟล์ทั้งหมด ซึ่งเราจะเห็นโฟลเดอร์ .git ด้วย โฟลเดอร์ .git
+# นี่แหละที่ทำหน้าที่เก็บความเปลี่ยนแปลงทั้งหมด
+$ ls -a
+.         ..        .git      readme.md
+
+# ต่อมาเราจะมาเช็คว่า local repo นี้มี remote repo รึยัง
+$ git remote -v
+
+# เมื่อยังไม่มี remote repo เราก็จะเพิ่มมันเข้าไป โดยใช้ url ที่ก็อปปี้ไว้เมื่อกี้
+$ git remote add origin https://github.com/bluenex/gitrepo.git
+$ git remote -v
+origin  https://github.com/bluenex/gitrepo.git (fetch)
+origin  https://github.com/bluenex/gitrepo.git (push)
+check status
+# คำสั่งตรวจสอบ status ของ repo เราจะใช้เพื่อตรวจสอบว่ามีอะไรเปลี่ยนแปลง
+# บ้างมั้ยใน repo ของเรา ถ้ามีเกิดความเปลี่ยนแปลงอะไรขึ้นบ้าง กับไฟล์ไหนบ้างเป็นต้น
+$ git status
+On branch master
+
+Initial commit
+
+# เราจะพบว่ามีไฟล์ใน working dir ที่ยังไม่ได้ stage หรือถูกติดตามความ
+# เปลี่ยนแปลงอยู่ ซึ่งก็คือ readme.md นั่นเอง
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        readme.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+stage files & check status
+# ดังนั้นเราจะมาติดตามมันด้วยคำสั่ง add โดยในที่นี้เราใช้ . แทนชื่อไฟล์ โดย .
+# หมายถึงทุกไฟล์ในโฟลเดอร์ gitrepo นั่นเอง
+$ git add .
+$ git status
+On branch master
+
+Initial commit
+
+# ตรงนี้บอกเราว่ามีไฟล์ที่เปลี่ยนแปลงและรอการ commit อยู่นะ
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+# โดยการเปลี่ยนแปลงนี้คือการสร้างไฟล์ใหม่ขึ้นมา ชื่อ readme.md
+        new file:   readme.md
+commit staged files
+# การ commit คือการบันทึกความเปลี่ยนแปลงเข้าสู่ repo ของเรา เป็นการย้าย
+# จาก staging state ไปยัง repository state นั่นเอง
+$ git commit -m "initial commit"
+[master (root-commit) 8eec696] initial commit
+1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 readme.md
+check commits log
+# เราสามารถตรวจสอบ commit ที่เกิดขึ้นใน repo ได้ด้วยคำสั่ง log
+$ git log
+
+# ซึ่งตรงนี้จะเข้าหน้าใหม่ ใช้ลูกศรเพื่อนำทาง หรือกด q เพื่อออก
+commit 8eec6969f1e74ac2cef7411848def896a8c97582
+Author: Bluenex <tulakan-@hotmail.com>
+Date:   Wed Dec 16 11:38:54 2015 +0900
+
+    initial commit
+(END)
+เอาล่ะ มาถึงตรงนี้เราก็ได้มา commit นึงแล้ว จากนี้เราจะทำการ push จาก local ขึ้นไปยัง remote repo โดยการ push เบื้องต้นเราต้องกำหนดว่าเราจะ push ไปที่ไหน (ในที่นี้คือ origin ให้คิดว่าเรากำหนดให้ remote repo คือ original copy และในเครื่องของเราก็มี local copy อยู่ด้วย) และ push ไป branch อะไร (ในที่นี้คือ master)
+
+$ git push origin master
+# กรอก username กับ password
+Username for 'https://github.com':
+Password for 'https://bluenex@github.com':
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 212 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/bluenex/gitrepo.git
+ * [new branch]      master -> master
+เราจะเห็นได้ว่าการ push ทุกครั้งนั้นเราจะต้องกรอก username และ password ซึ่งก็เป็นรูปแบบการรักษาความปลอดภัยผ่านโปรโตคอล HTTPS ถ้าเริ่มเบื่อที่จะกรอกแล้วก็แนะนำให้ไปทำความรู้จักกับ SSH หรือ Secure Shell สำหรับ GitHub ซึ่งจะใช้รูปแบบอื่นในการรักษาความปลอดภัย
+
+เมื่อทำการ push เสร็จเรียบร้อยไม่มี error ใดๆ ก็ลองกลับไปเช็คที่หน้าเว็บ GitHub อีกที ลองรีเฟรชหน้าเมื่อกี้ดูก็จะพบว่ามันเปลี่ยนไปแล้ว
